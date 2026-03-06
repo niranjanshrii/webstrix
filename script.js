@@ -48,9 +48,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gsap.to('.fade-in', { opacity: 1, duration: 1.5, delay: 0.5 });
 
-    /* --- 3. INITIATE EFFECTS --- */
+    /* --- 3. GSAP ScrollTrigger ANIMATIONS (works on mobile too) --- */
+
+    // Animate project cards as they enter view
+    gsap.utils.toArray('.project-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { opacity: 0, y: 60 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.8,
+                delay: (i % 3) * 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    // Animate content blocks (About section)
+    gsap.utils.toArray('.text-block').forEach(block => {
+        gsap.fromTo(block,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: block, start: 'top 85%', toggleActions: 'play none none none' }
+            }
+        );
+    });
+
+    // Animate contact glass container
+    gsap.utils.toArray('.fade-up').forEach(el => {
+        gsap.fromTo(el,
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+            }
+        );
+    });
+
+    // Fix nav anchor scrolling with Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const target = document.querySelector(targetId);
+            if (target) lenis.scrollTo(target, { offset: -80, duration: 1.8 });
+        });
+    });
+
+    /* --- 4. INITIATE EFFECTS --- */
     initMouseTrail();
-    initPremiumScene(); // Unified UnrealBloomPass Pipeline
+
+    // Only init heavy 3D on desktop (saves mobile performance + fixes mobile blank screen)
+    if (window.innerWidth > 768) {
+        initPremiumScene(); // Unified UnrealBloomPass Pipeline
+    }
 });
 
 /* ========================================================

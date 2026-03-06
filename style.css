@@ -422,6 +422,220 @@ a,
     .hero-title {
         font-size: 4rem;
     }
+
+    /* Mobile nav - show links  */
+    .nav-links {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.6rem;
+    }
+
+    .brand {
+        font-size: 0.7rem;
+    }
+
+    /* On mobile, make text readable without 3D scenes */
+    .hero-text-layer {
+        position: relative;
+        padding: 2rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 12vw, 5rem);
+    }
+
+    .hero-sub {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+
+    /* Projects responsive */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    /* Chatbot tab position on mobile */
+    #chat-tab {
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 14px;
+    }
+
+    #chat-panel {
+        width: calc(100vw - 32px);
+        right: 16px;
+        bottom: 70px;
+    }
+}
+
+/* ============================================
+   PROJECTS SECTION
+   ============================================ */
+.projects-section {
+    min-height: auto;
+    padding: 15vh 5vw;
+}
+
+.projects-header {
+    margin-bottom: 6rem;
+    position: relative;
+    z-index: 50;
+}
+
+.projects-header .body-text {
+    max-width: 500px;
+    margin-top: 1rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+    z-index: 50;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease,
+        background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated inner glow overlay (hidden by default) */
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.project-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.04);
+    box-shadow:
+        0 0 0 1px rgba(0, 229, 255, 0.15),
+        0 0 30px rgba(0, 229, 255, 0.15),
+        0 0 80px rgba(0, 229, 255, 0.07),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+/* Title glows cyan on hover */
+.project-card:hover .project-title {
+    color: #00e5ff;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+/* Result stat brightens on hover */
+.project-card:hover .project-result {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.project-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-tag {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    font-family: var(--font-heading);
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.project-year {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 300;
+}
+
+.project-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+    line-height: 1.3;
+}
+
+.project-desc {
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 300;
+    flex: 1;
+}
+
+.project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.project-stack span {
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.project-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 1rem;
+}
+
+.project-result {
+    font-size: 0.78rem;
+    color: #00e5ff;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* Fix massive-bg-text color to be slightly more visible */
+.massive-bg-text,
+.huge-text {
+    color: rgba(255, 255, 255, 0.05);
+}
+
+/* GSAP animation target  */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
 }
 
 /* ============================================
