@@ -4,176 +4,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Niranjan Shri | Immersive Portfolio</title>
-    <meta name="description" content="Portfolio of Niranjan Shri. Discover my work, projects, and get in touch.">
+    <title>Cosmic Gugai | Web Intelligence & AI</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Add EffectComposer and UnrealBloomPass -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
 </head>
 
-<body class="locked">
-    <!-- Immersive Preloader -->
-    <div class="preloader">
-        <div class="loader-content">
-            <div class="loader-text pulse-glow">Niranjan Shri</div>
-            <div class="loader-bar-container">
-                <div class="loader-bar"></div>
-            </div>
-            <div class="loader-percentage">0%</div>
+<body>
+
+    <!-- 1. The Unified 3D Background (Orb + Ocean + Bloom) -->
+    <div id="bg-canvas-container">
+        <canvas id="bg-canvas"></canvas>
+    </div>
+
+    <!-- 2. The Text layer BEHIND the orb (Outlined text) -->
+    <div class="hero-text-layer back-layer">
+        <h1 class="hero-title">
+            <span class="filled-text">FLUID</span><br>
+            <span class="outlined-text">INTELLIGENCE.</span>
+        </h1>
+    </div>
+
+    <!-- 3. The Text layer IN FRONT of the orb (Filled text) -->
+    <div class="hero-text-layer front-layer">
+        <h1 class="hero-title">
+            <span class="filled-text">FLUID</span><br>
+            <span class="transparent-text">INTELLIGENCE.</span> <!-- Transparent to let orb show through -->
+        </h1>
+        <p class="hero-sub fade-in">Web Development & AI Solutions for modern enterprises.</p>
+    </div>
+
+    <!-- Mouse Trail Layer -->
+    <canvas id="trail-canvas"></canvas>
+
+    <!-- Custom Cursors -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- UI Overlay Layer -->
+    <nav class="navbar glass">
+        <div class="brand magnetic" data-strength="20">COSMIC GUGAI <span class="pulse-dot"></span></div>
+        <div class="nav-links">
+            <a href="#about" class="magnetic" data-strength="30">STUDIO</a>
+            <a href="#work" class="magnetic" data-strength="30">APPROACH</a>
+            <a href="#contact" class="magnetic" data-strength="30">CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Scroll Content layer -->
+    <div id="smooth-wrapper">
+        <main id="smooth-content">
+            <!-- Hero spacer -->
+            <section class="section hero-spacer"></section>
+
+            <!-- Spacer while the orb flies past the camera -->
+            <section class="section spacer-large">
+                <p class="massive-bg-text parallax-item" data-speed="0.5">INTELLIGENT.</p>
+            </section>
+
+            <!-- STAGE 2: DEEP SPACE PARTICLES (V4) -->
+            <section id="space" class="section about">
+                <div class="content-grid">
+                    <div class="text-block parallax-item" data-speed="0.8">
+                        <h2 class="cyan-number">01</h2>
+                        <h3 class="big-heading">AI INTEGRATION</h3>
+                        <p class="body-text">We provide end-to-end AI solutions for companies and individuals.<br>From
+                            intelligent data management to automated workflows, we handle complex departmental
+                            requirements.</p>
+                    </div>
+
+                    <div class="text-block parallax-item mt-mobile" data-speed="1.2">
+                        <h2 class="cyan-number">02</h2>
+                        <h3 class="big-heading">WEB ARCHITECTURE</h3>
+                        <p class="body-text">Award-winning web development. We build ultra-performant, highly
+                            interactive digital experiences<br>that elevate your brand and manage your personal data
+                            securely.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fast fly-through space -->
+            <section class="section spacer-xlarge">
+                <h2 class="huge-text absolute-center mix-blend move-up" data-speed="1.5">HYPERSPACE</h2>
+            </section>
+
+            <!-- STAGE 3: GLSL FLUID SMOKE / TERRAIN (V3) -->
+            <section id="contact" class="section contact">
+                <div class="glass-container fade-up">
+                    <h2>INITIATE PROJECT</h2>
+                    <p>Elevate your web presence and integrate modern AI solutions.</p>
+                    <a href="#" class="btn-primary magnetic" data-strength="50">HELLO@COSMICGUGAI.COM</a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Floating Chatbot Tab -->
+    <div id="chat-tab" onclick="toggleChat()">
+        <span class="chat-icon">💬</span>
+        <span class="chat-label">ASK AI</span>
+    </div>
+
+    <!-- Chatbot Panel (hidden by default) -->
+    <div id="chat-panel">
+        <div id="chat-header">
+            <span>COSMIC GUGAI AI</span>
+            <button onclick="toggleChat()" id="chat-close">✕</button>
+        </div>
+        <div id="chat-messages">
+            <div class="chat-msg bot">Hello! I'm the Cosmic Gugai AI. How can I help you today?</div>
+        </div>
+        <div id="chat-input-row">
+            <input type="text" id="chat-input" placeholder="Ask me anything..." onkeydown="handleChatKey(event)" />
+            <button onclick="sendChatMessage()" id="chat-send">→</button>
         </div>
     </div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-glow"></div>
+    <!-- Liquid Orb Shaders (From V5) -->
+    <script type="x-shader/x-vertex" id="liquidVertex">
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        uniform float uTime;
+        uniform float uHover;
 
-    <!-- 3D WebGL Background -->
-    <div id="canvas-container"></div>
+        vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+        vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+        
+        float snoise(vec3 v){ 
+            const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+            const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+            vec3 i  = floor(v + dot(v, C.yyy) );
+            vec3 x0 = v - i + dot(i, C.xxx) ;
+            vec3 g = step(x0.yzx, x0.xyz);
+            vec3 l = 1.0 - g;
+            vec3 i1 = min( g.xyz, l.zxy );
+            vec3 i2 = max( g.xyz, l.zxy );
+            vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+            vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+            vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
+            i = mod(i, 289.0 ); 
+            vec4 p = permute( permute( permute( 
+                        i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                    + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+                    + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+            float n_ = 1.0/7.0;
+            vec3  ns = n_ * D.wyz - D.xzx;
+            vec4 j = p - 49.0 * floor(p * ns.z *ns.z);  
+            vec4 x_ = floor(j * ns.z);
+            vec4 y_ = floor(j - 7.0 * x_ );    
+            vec4 x = x_ *ns.x + ns.yyyy;
+            vec4 y = y_ *ns.x + ns.yyyy;
+            vec4 h = 1.0 - abs(x) - abs(y);
+            vec4 b0 = vec4( x.xy, y.xy );
+            vec4 b1 = vec4( x.zw, y.zw );
+            vec4 s0 = floor(b0)*2.0 + 1.0;
+            vec4 s1 = floor(b1)*2.0 + 1.0;
+            vec4 sh = -step(h, vec4(0.0));
+            vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+            vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+            vec3 p0 = vec3(a0.xy,h.x);
+            vec3 p1 = vec3(a0.zw,h.y);
+            vec3 p2 = vec3(a1.xy,h.z);
+            vec3 p3 = vec3(a1.zw,h.w);
+            vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+            p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+            vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+            m = m * m;
+            return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
+        }
 
-    <nav class="navbar fade-in-nav">
-        <div class="logo magnetic">NS.</div>
-        <ul class="nav-links">
-            <li><a href="#home" class="magnetic-text">Home</a></li>
-            <li><a href="#about" class="magnetic-text">About</a></li>
-            <li><a href="#projects" class="magnetic-text">Work</a></li>
-            <li><a href="#contact" class="magnetic-text">Contact</a></li>
-        </ul>
-    </nav>
+        void main() {
+            vUv = uv; vNormal = normal;
+            float noise = snoise(vec3(position.x * 2.0 + uTime, position.y * 2.0, position.z * 2.0));
+            float displacement = noise * (0.2 + uHover * 0.4);
+            vec3 newPosition = position + normal * displacement;
+            vPosition = newPosition;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+        }
+    </script>
+    <script type="x-shader/x-fragment" id="liquidFragment">
+        varying vec2 vUv; varying vec3 vNormal; varying vec3 vPosition;
+        uniform float uTime;
+        void main() {
+            vec3 viewDirection = normalize(cameraPosition - vPosition);
+            float fresnel = dot(viewDirection, vNormal);
+            fresnel = clamp(1.0 - fresnel, 0.0, 1.0);
+            fresnel = pow(fresnel, 3.0);
+            vec3 colorA = vec3(0.05, 0.05, 0.1);
+            vec3 colorB = vec3(0.0, 0.8, 1.0);
+            vec3 colorC = vec3(0.7, 0.1, 1.0);
+            vec3 finalColor = mix(colorA, colorB, fresnel);
+            float colorMix = sin(vPosition.y * 5.0 + uTime) * 0.5 + 0.5;
+            finalColor = mix(finalColor, colorC, colorMix * fresnel);
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+    </script>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content fade-in parallax" data-speed="0.05">
-                <p class="greeting slide-up" style="transition-delay: 0.1s;">Welcome to my universe</p>
-                <h1 class="glitch-title slide-up" style="transition-delay: 0.2s;" data-text="Niranjan Shri">Niranjan
-                    Shri</h1>
-                <h2 class="subtitle slide-up" style="transition-delay: 0.3s;">Crafting Immersive <span
-                        class="gradient-text">Digital Experiences</span></h2>
-                <div class="cta-group slide-up" style="transition-delay: 0.4s;">
-                    <a href="#projects" class="btn btn-primary magnetic">
-                        <span>Explore Work</span>
-                        <div class="btn-flare"></div>
-                    </a>
-                    <a href="#contact" class="btn btn-outline magnetic">
-                        <span>Contact Me</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="scroll-indicator fade-in">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
-                <div class="arrow"></div>
-            </div>
-        </section>
-
-        <section id="about" class="about">
-            <h2 class="section-title fade-in parallax" data-speed="0.02">About <span class="gradient-text">Me</span>
-            </h2>
-            <div class="about-grid">
-                <div class="about-text fade-in parallax" data-speed="0.03">
-                    <p class="lead-text">I am a passionate creator focused on building profound digital ecosystems.</p>
-                    <p>My work sits at the intersection of stunning visual design and robust engineering. I build
-                        experiences that don't just function—they captivate. With a meticulous eye for detail and a love
-                        for modern web technologies, I bring ambitious ideas to reality.</p>
-                </div>
-                <div class="skills-container fade-in parallax" data-speed="-0.02">
-                    <div class="skill-tag magnetic">WebGL</div>
-                    <div class="skill-tag magnetic">Creative Coding</div>
-                    <div class="skill-tag magnetic">UI/UX Design</div>
-                    <div class="skill-tag magnetic">Frontend Dev</div>
-                    <div class="skill-tag magnetic">Animations</div>
-                    <div class="skill-tag magnetic">Interactive Arts</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="projects">
-            <h2 class="section-title fade-in parallax" data-speed="0.02">Selected <span
-                    class="gradient-text">Work</span></h2>
-            <div class="project-grid">
-                <!-- Project Card 1 -->
-                <div class="project-card fade-in tilt-card">
-                    <div class="project-content">
-                        <div class="project-image"
-                            style="background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop') center/cover;">
-                            <div class="image-overlay"></div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">Immersive Web</span>
-                            <h3>Ethereal Spaces</h3>
-                            <p>A 3D virtual exhibition platform pushing the boundaries of WebGL.</p>
-                            <a href="#" class="project-link magnetic-text">Discover ↗</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project Card 2 -->
-                <div class="project-card fade-in tilt-card" style="transition-delay: 0.2s;">
-                    <div class="project-content">
-                        <div class="project-image"
-                            style="background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2000&auto=format&fit=crop') center/cover;">
-                            <div class="image-overlay"></div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">App Design</span>
-                            <h3>Quantum UI</h3>
-                            <p>Next-generation data visualization dashboard with fluid physics.</p>
-                            <a href="#" class="project-link magnetic-text">Discover ↗</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project Card 3 -->
-                <div class="project-card fade-in tilt-card" style="transition-delay: 0.4s;">
-                    <div class="project-content">
-                        <div class="project-image"
-                            style="background: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=2000&auto=format&fit=crop') center/cover;">
-                            <div class="image-overlay"></div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">Interaction</span>
-                            <h3>Synapse</h3>
-                            <p>An award-winning generative art installation adapting to user biosignals.</p>
-                            <a href="#" class="project-link magnetic-text">Discover ↗</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact fade-in">
-            <div class="contact-card glass-panel parallax" data-speed="0.04">
-                <div class="glow-orb"></div>
-                <h2 class="section-title" style="margin-bottom: 1rem;">Let's <span
-                        class="gradient-text">Collaborate</span></h2>
-                <p>Ready to create something that defies expectations?</p>
-                <a href="mailto:niranjanshri28@gmail.com" class="btn btn-primary email-btn magnetic mt-4">
-                    <span style="position: relative; z-index: 2; display: flex; align-items: center; gap: 10px;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                            </path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        niranjanshri28@gmail.com
-                    </span>
-                    <div class="btn-flare"></div>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Niranjan Shri. Forged in code.</p>
-    </footer>
-
-    <!-- Scripts -->
-    <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Chatbot Logic -->
+    <script>
+        function toggleChat() {
+            const panel = document.getElementById('chat-panel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        // Simple response map - can be connected to a real AI API later
+        const botReplies = [
+            "Cosmic Gugai specializes in AI integration and award-winning web development.",
+            "We handle everything from data management to immersive 3D web experiences.",
+            "Our team builds web solutions for both companies and individuals.",
+            "Need a custom AI system? We've got you covered.",
+            "Reach us at hello@cosmicgugai.com to start your project!",
+        ];
+        let replyIndex = 0;
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messagesEl = document.getElementById('chat-messages');
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.textContent = msg;
+            messagesEl.appendChild(userMsg);
+
+            input.value = '';
+
+            // Simulate bot typing and response
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.textContent = botReplies[replyIndex % botReplies.length];
+                replyIndex++;
+                messagesEl.appendChild(botMsg);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }, 600);
+
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+    </script>
 </body>
 
 </html>
